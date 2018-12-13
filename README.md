@@ -16,10 +16,8 @@ action "Filter frontend branch" {
 action "Set label" {
   needs = ["Filter frontend branch"]
   uses = "fujikky/actions/set-pr-label@master"
+  arg = "bug"
   secrets = ["GITHUB_TOKEN"]
-  env = {
-      LABEL = "frontend"
-  }
 }
 ```
 

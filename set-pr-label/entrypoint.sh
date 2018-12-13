@@ -11,17 +11,13 @@ if [[ -z "$GITHUB_TOKEN" ]]; then
 	exit 1
 fi
 
-if [[ -z "$LABEL" ]]; then
-	echo "Set the LABEL env variable."
-	exit 1
-fi
-
 URI=https://api.github.com
 API_VERSION=v3
 API_HEADER="Accept: application/vnd.github.${API_VERSION}+json"
 AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
 
 main() {
+    label="$0"
     action=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
     owner=$(jq --raw-output .pull_request.head.repo.owner.login "$GITHUB_EVENT_PATH")
     repo=$(jq --raw-output .pull_request.head.repo.name "$GITHUB_EVENT_PATH")
@@ -35,7 +31,7 @@ main() {
                 -H "${AUTH_HEADER}" \
                 -H "${API_HEADER}" \
                 -H "Content-Type: application/json" \
-                -d "{\"labels\":[\"${LABEL}\"]}" \
+                -d "{\"labels\":[\"${label}\"]}" \
                 "${URI}/repos/${owner}/${repo}/issues/${number}/labels"
         )
 
