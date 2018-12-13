@@ -1,0 +1,18 @@
+FROM alpine:latest
+
+LABEL "name"="set-pr-label"
+LABEL "maintainer"="Yusuke Fujiki <yusuke@fujikkys.com>"
+LABEL "version"="1.0.0"
+
+LABEL "com.github.actions.name"="Set Pull Request Label"
+LABEL "com.github.actions.description"="Set label to the pull request"
+LABEL "com.github.actions.icon"="activity"
+LABEL "com.github.actions.color"="red"
+
+RUN	apk add --no-cache \
+	bash \
+	ca-certificates \
+	curl \
+	jq
+
+ENTRYPOINT ["entrypoint.sh"]
