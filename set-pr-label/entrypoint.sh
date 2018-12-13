@@ -29,7 +29,7 @@ main() {
 
     echo "DEBUG -> action: $action owner: $owner repo: $repo number: $number"
 
-    if [[ "$action" != "closed" ]]; then
+    if [[ "$action" == "opened" ]]; then
         result=$(
             curl -XPOST -sSL \
                 -H "${AUTH_HEADER}" \
