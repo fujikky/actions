@@ -6,8 +6,8 @@ LABEL "version"="1.0.0"
 
 LABEL "com.github.actions.name"="Set Pull Request Label"
 LABEL "com.github.actions.description"="Set label to the pull request"
-LABEL "com.github.actions.icon"="activity"
-LABEL "com.github.actions.color"="red"
+LABEL "com.github.actions.icon"="tag"
+LABEL "com.github.actions.color"="blue"
 
 RUN	apk add --no-cache \
 	bash \
