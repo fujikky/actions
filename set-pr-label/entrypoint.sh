@@ -23,17 +23,23 @@ AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
 
 main() {
     action=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
+    owner=$(jq --raw-output .pull_request.head.repo.owner.login "$GITHUB_EVENT_PATH")
+    repo=$(jq --raw-output .pull_request.head.repo.name "$GITHUB_EVENT_PATH")
+    number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+
+    echo "DEBUG -> action: $action owner: $owner repo: $repo number: $number"
 
     if [[ "$action" != "closed" ]]; then
-        owner=$(jq --raw-output .pull_request.head.repo.owner.login "$GITHUB_EVENT_PATH")
-        repo=$(jq --raw-output .pull_request.head.repo.name "$GITHUB_EVENT_PATH")
+        result=$(
+            curl -XPOST -sSL \
+                -H "${AUTH_HEADER}" \
+                -H "${API_HEADER}" \
+                -H "Content-Type: application/json" \
+                -d "{\"labels\":[\"${LABEL}\"]}" \
+                "${URI}/repos/${owner}/${repo}/issues/${number}/labels"
+        )
 
-        curl -XPOST -sSL \
-            -H "${AUTH_HEADER}" \
-            -H "${API_HEADER}" \
-            -H "Content-Type: application/json" \
-            -d "{\"labels\":[\"${LABEL}\"]}" \
-            "${URI}/repos/${owner}/${repo}/issues/${issue}/labels"
+        echo $result
     fi
 }
 
