@@ -17,7 +17,7 @@ API_HEADER="Accept: application/vnd.github.${API_VERSION}+json"
 AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
 
 main() {
-    label="$0"
+    label="$1"
     action=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
     owner=$(jq --raw-output .pull_request.head.repo.owner.login "$GITHUB_EVENT_PATH")
     repo=$(jq --raw-output .pull_request.head.repo.name "$GITHUB_EVENT_PATH")
