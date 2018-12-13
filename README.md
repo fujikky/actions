@@ -6,7 +6,7 @@ A GitHub action to automatically set label to the pull request.
 ```
 workflow "on pull request create, set label" {
   on = "pull_request"
-  resolves = ["filter-branch", "set-label"]
+  resolves = ["filter-branch", "set-pr-label"]
 }
 
 action "filter-branch" {
@@ -14,7 +14,7 @@ action "filter-branch" {
   args = "branch frontend/*"
 }
 
-action "Set label" {
+action "set-pr-label" {
   needs = ["filter-branch"]
   uses = "fujikky/actions/set-pr-label@master"
   args = "frontend"
